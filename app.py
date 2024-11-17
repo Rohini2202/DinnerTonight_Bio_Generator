@@ -7,7 +7,7 @@ load_dotenv()  # Load API key from .env file
 
 app = Flask(__name__)
 # OpenAI API Key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY_BIO")
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -35,11 +35,11 @@ def generate_bio():
         print("Prompt:", prompt)
         # Generate Bio using OpenAI API
         response = openai.ChatCompletion.create(
-            model="gpt-4o-mini",
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=100,
+            max_tokens=50,
             temperature=0.7
         )
         print("OpenAI response:", response)
