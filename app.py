@@ -20,6 +20,7 @@ def generate_bio():
     career = data['career']
     personality = data['personality']
     interests = data['interests']
+    relationship = data['relationship']
 
     # AI Model Prompt
     prompt = f"I am a {career} who is {personality} and loves {interests}. Write a creative bio for me."
