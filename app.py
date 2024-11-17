@@ -34,12 +34,12 @@ def generate_bio():
         prompt = f"I am a {career} who is {personality} and loves {interests} using {relationship}. Write a creative bio for me."
         print("Prompt:", prompt)
         # Generate Bio using OpenAI API
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=50,
-            n=1,
-            stop=None,
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=100,
             temperature=0.7
         )
         print("OpenAI response:", response)
