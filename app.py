@@ -11,25 +11,33 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 @app.route('/')
 def index():
     return render_template('index.html')
+    
 @app.route('/generate-bio', methods=['POST'])
 def generate_bio():
-    data = request.json
-    career = data['career']
-    personality = data['personality']
-    interests = data['interests']
-    relationship = data['relationship']
+    try:
+        data = request.json
+        career = data.get('carrer','')
+        personality = data.get('personality','')
+        interests = data.get('interests','')
+        relationship = data.get('relationship','')
 
-    # AI Model Prompt
-    prompt = f"I am a {career} who is {personality} and loves {interests} using {relationship}. Write a creative bio for me."
+        if not (career and personality and interests and relationship):
+            return jsonify({"error": "Missing input data"}), 400
     
-    # Generate Bio using OpenAI API
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        max_tokens=50
-    )
-    bio = response.choices[0].text.strip()
-    return jsonify({"bio": bio})
+        # AI Model Prompt
+        prompt = f"I am a {career} who is {personality} and loves {interests} using {relationship}. Write a creative bio for me."
+        
+        # Generate Bio using OpenAI API
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=50
+        )
+        bio = response.choices[0].text.strip()
+        return jsonify({"bio": bio})
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
