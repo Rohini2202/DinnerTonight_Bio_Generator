@@ -23,7 +23,7 @@ def generate_bio():
     relationship = data['relationship']
 
     # AI Model Prompt
-    prompt = f"I am a {career} who is {personality} and loves {interests}. Write a creative bio for me."
+    prompt = f"I am a {career} who is {personality} and loves {interests} using {relationship}. Write a creative bio for me."
     
     # Generate Bio using OpenAI API
     response = openai.Completion.create(
