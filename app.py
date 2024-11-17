@@ -14,7 +14,6 @@ print('2')
 def index():
     print('3')
     return render_template('index.html')
-    p
 @app.route('/generate-bio', methods=['POST'])
 def generate_bio():
     data = request.json
