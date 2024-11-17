@@ -17,7 +17,7 @@ def generate_bio():
     try:
         data = request.get_json(force=True)
         print("Received data:", data)
-        career = data.get('carrer','').strip()
+        career = data.get('career','').strip()
         personality = data.get('personality','').strip()
         interests = data.get('interests','').strip()
         relationship = data.get('relationship','').strip()
