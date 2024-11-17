@@ -1,4 +1,4 @@
-document.getElementById('generate-btn').addEventListener('click', async () => {
+async function generateBio() {
     const career = document.getElementById('career').value;
     const personality = document.getElementById('personality').value;
     const interests = document.getElementById('interests').value;
