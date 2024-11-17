@@ -12,8 +12,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 print('2')
 @app.route('/')
 def index():
-    return render_template('index.html')
     print('3')
+    return render_template('index.html')
+    p
 @app.route('/generate-bio', methods=['POST'])
 def generate_bio():
     data = request.json
