@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bio Generator</title>
+<link rel="stylesheet" type="text/css" href="../static/style.css">
+
+
+</head>
+<body>
+    <h1>DinnerTonight Bio Generator</h1>
+    <form id="bioForm">
+        <label for="career">Career:</label>
+        <select id="career">
+            <option value="Software Engineer">Software Engineer</option>
+            <option value="Artist">Artist</option>
+	    <option value="Entrepreneur">Entrepreneur</option>
+	    <option value="Chef">Chef</option>
+	    <option value="Teacher">Teacher</option>
+	    <option value="Musician">Musician</option>
+        </select>
+	<br><br><br>
+        <label for="personality">Personality:</label>
+        <select id="personality">
+            <option value="Adventurous">Adventurous</option>
+            <option value="Creative">Creative</option>
+	    <option value="Compassionate">Compassionate</option>
+	    <option value="Outgoing">Outgoing</option>
+	    <option value="Introverted">Introverted</option>
+        </select>
+	<br><br><br>
+        <label for="interests">Interests:</label>
+        <select id="interests">
+            <option value="Music">Music</option>
+            <option value="Traveling">Traveling</option>
+	    <option value="Fitness">Fitness</option>
+	    <option value="Music">Music</option>
+	    <option value="Literature">Literature</option>
+	    <option value="Technology">Technology</option>
+	    <option value="Gaming">Gaming</option>
+        </select>
+	<br><br><br>
+	<label for="relationship">Relationship Goals:</label>
+	<select id="relationship">
+	    <option value="Casual">Casual</option>
+	    <option value="Long-term">Long-term</option>
+	    <option value="Adventurous">Adventurous</option>
+	    <option value="Seeking Deep Connection">Seeking Deep Connection</option>
+	</select>
+	<br><br><br>
+        <button type="button" onclick="generateBio()">Generate Bio</button>
+    </form>
+
+    <div id="bioResult"></div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
