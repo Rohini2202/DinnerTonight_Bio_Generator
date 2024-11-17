@@ -16,6 +16,7 @@ def index():
 def generate_bio():
     try:
         data = request.json
+        print("Received data:", data)
         career = data.get('carrer','')
         personality = data.get('personality','')
         interests = data.get('interests','')
@@ -26,13 +27,17 @@ def generate_bio():
     
         # AI Model Prompt
         prompt = f"I am a {career} who is {personality} and loves {interests} using {relationship}. Write a creative bio for me."
-        
+        print("Prompt:", prompt)
         # Generate Bio using OpenAI API
         response = openai.Completion.create(
             engine="text-davinci-003",
             prompt=prompt,
-            max_tokens=50
+            max_tokens=50,
+            n=1,
+            stop=None,
+            temperature=0.7
         )
+        print("OpenAI response:", response)
         bio = response.choices[0].text.strip()
         return jsonify({"bio": bio})
     except Exception as e:
