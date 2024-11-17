@@ -19,5 +19,5 @@ async function generateBio() {
         console.error('Error:', error);
         document.getElementById('result').innerText = 'Failed to generate bio.';
     }
-});
+};
 
