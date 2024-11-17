@@ -15,15 +15,20 @@ def index():
 @app.route('/generate-bio', methods=['POST'])
 def generate_bio():
     try:
-        data = request.json
+        data = request.get_json(force=True)
         print("Received data:", data)
-        career = data.get('carrer','')
-        personality = data.get('personality','')
-        interests = data.get('interests','')
-        relationship = data.get('relationship','')
+        career = data.get('carrer','').strip()
+        personality = data.get('personality','').strip()
+        interests = data.get('interests','').strip()
+        relationship = data.get('relationship','').strip()
 
-        if not (career and personality and interests and relationship):
-            return jsonify({"error": "Missing input data"}), 400
+        if not career or not personality or not interests:
+            error_message = (
+                f"Missing input data. Received values - "
+                f"career: '{career}', personality: '{personality}', interests: '{interests}', relationship: {relationship}."
+            )
+            return jsonify({"error": error_message}), 400
+
     
         # AI Model Prompt
         prompt = f"I am a {career} who is {personality} and loves {interests} using {relationship}. Write a creative bio for me."
