@@ -2,7 +2,7 @@ document.getElementById('generate-btn').addEventListener('click', async () => {
     const career = document.getElementById('career').value;
     const personality = document.getElementById('personality').value;
     const interests = document.getElementById('interests').value;
-    const relationship = document.getElementById('relationship').value
+    const relationship = document.getElementById('relationship').value;
 
     try {
         const response = await fetch('/generate-bio', {
