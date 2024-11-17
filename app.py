@@ -13,7 +13,7 @@ print('2')
 @app.route('/')
 def index():
     return render_template('index.html')
-print('3')
+    print('3')
 @app.route('/generate-bio', methods=['POST'])
 def generate_bio():
     data = request.json
