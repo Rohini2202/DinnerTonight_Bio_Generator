@@ -6,13 +6,10 @@ from dotenv import load_dotenv
 load_dotenv()  # Load API key from .env file
 
 app = Flask(__name__)
-print(1)
 # OpenAI API Key
 openai.api_key = os.getenv("OPENAI_API_KEY")
-print('2')
 @app.route('/')
 def index():
-    print('3')
     return render_template('index.html')
 @app.route('/generate-bio', methods=['POST'])
 def generate_bio():
@@ -31,7 +28,6 @@ def generate_bio():
         prompt=prompt,
         max_tokens=50
     )
-    print(5)
     bio = response.choices[0].text.strip()
     return jsonify({"bio": bio})
 
