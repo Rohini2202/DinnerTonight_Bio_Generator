@@ -1,50 +1,62 @@
 from flask import Flask, render_template, request, jsonify
-import openai
-import os
-from dotenv import load_dotenv
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+import torch
 
-load_dotenv()  # Load API key from .env file
-
+# Initialize Flask app
 app = Flask(__name__)
-# OpenAI API Key
-openai.api_key = os.getenv("OPENAI_API_KEY_BIO")
+
+# Load GPT-Neo model and tokenizer from Hugging Face
+model_name = "EleutherAI/gpt-neo-1.3B"  # GPT-Neo model (1.3B parameters)
+model = GPTNeoForCausalLM.from_pretrained(model_name)
+tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+
+# Route to home page
 @app.route('/')
 def index():
     return render_template('index.html')
-    
+
+# Route to generate bio
 @app.route('/generate-bio', methods=['POST'])
 def generate_bio():
     try:
         data = request.get_json(force=True)
-        print("Received data:", data)
-        career = data.get('career','').strip()
-        personality = data.get('personality','').strip()
-        interests = data.get('interests','').strip()
-        relationship = data.get('relationship','').strip()
+        career = data.get('career', '').strip()
+        personality = data.get('personality', '').strip()
+        interests = data.get('interests', '').strip()
+        relationship = data.get('relationship', '').strip()
 
         if not career or not personality or not interests:
             error_message = (
                 f"Missing input data. Received values - "
-                f"career: '{career}', personality: '{personality}', interests: '{interests}', relationship: {relationship}."
+                f"career: '{career}', personality: '{personality}', interests: '{interests}'."
             )
             return jsonify({"error": error_message}), 400
 
-    
-        # AI Model Prompt
-        prompt = f"I am a {career} who is {personality} and loves {interests} using {relationship}. Write a creative bio for me."
-        print("Prompt:", prompt)
-        # Generate Bio using OpenAI API
-        response = openai.ChatCompletion.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
-            max_tokens=50,
-            temperature=0.7
+        # Create prompt based on user input
+        prompt = (
+            f"I am a {career} who is {personality} and loves {interests}. "
+            f"My relationship goal is {relationship}. Write a creative bio for me."
         )
-        print("OpenAI response:", response)
-        bio = response.choices[0].text.strip()
-        return jsonify({"bio": bio})
+
+        # Tokenize the prompt
+        inputs = tokenizer(prompt, return_tensors="pt")
+
+        # Generate output
+        output = model.generate(
+            inputs['input_ids'], 
+            max_length=150,  # Adjust the length of the generated response
+            num_return_sequences=1, 
+            no_repeat_ngram_size=2,  # Avoid repetition in text
+            temperature=0.7,  # Adjust creativity (higher = more creative)
+            top_k=50,  # Sampling for more diverse results
+            top_p=0.95  # Nucleus sampling for creativity
+        )
+
+        # Decode the output
+        generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+        
+        # Return the generated bio as a JSON response
+        return jsonify({"bio": generated_text})
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({"error": str(e)}), 500
