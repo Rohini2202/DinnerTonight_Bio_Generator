@@ -25,7 +25,8 @@ def generate_bio():
         personality = data.get('personality', '').strip()
         interests = data.get('interests', '').strip()
         relationship = data.get('relationship', '').strip()
-
+        print(career, personality, interests, relationship)
+        
         if not career or not personality or not interests or not relationship:
             error_message = (
                 f"Missing input data. Received values - "
@@ -38,7 +39,7 @@ def generate_bio():
             f"I am a {career} who is {personality} and loves {interests}. "
             f"My relationship goal is {relationship}. Write a creative bio for me."
         )
-
+        print(prompt)
         # Tokenize the prompt
         inputs = tokenizer(prompt, return_tensors="pt")
         print(inputs)
@@ -48,7 +49,7 @@ def generate_bio():
             max_length=150,  # Adjust the length of the generated response
             num_return_sequences=1, 
             no_repeat_ngram_size=2,  # Avoid repetition in text
-            temperature=0.7,  # Adjust creativity (higher = more creative)
+            temperature=0.5,  # Adjust creativity (higher = more creative)
             top_k=50,  # Sampling for more diverse results
             top_p=0.95  # Nucleus sampling for creativity
         )
