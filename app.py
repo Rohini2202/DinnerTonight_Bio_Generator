@@ -26,10 +26,10 @@ def generate_bio():
         interests = data.get('interests', '').strip()
         relationship = data.get('relationship', '').strip()
 
-        if not career or not personality or not interests:
+        if not career or not personality or not interests or not relationship:
             error_message = (
                 f"Missing input data. Received values - "
-                f"career: '{career}', personality: '{personality}', interests: '{interests}'."
+                f"career: '{career}', personality: '{personality}', interests: '{interests}', relationship: '{relationship}'."
             )
             return jsonify({"error": error_message}), 400
 
@@ -41,7 +41,7 @@ def generate_bio():
 
         # Tokenize the prompt
         inputs = tokenizer(prompt, return_tensors="pt")
-
+        print(inputs)
         # Generate output
         output = model.generate(
             inputs['input_ids'], 
@@ -52,6 +52,7 @@ def generate_bio():
             top_k=50,  # Sampling for more diverse results
             top_p=0.95  # Nucleus sampling for creativity
         )
+        print(output)
 
         # Decode the output
         generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
